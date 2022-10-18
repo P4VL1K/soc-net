@@ -1,0 +1,12 @@
+.navbarContainer {
+    background-color: #e8e89e;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    /*height: 250px;*/
+    /*width: 250px;*/
+}
+
+.navbarContainer a {
+    text-decoration: none;
+}
