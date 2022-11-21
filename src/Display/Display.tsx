@@ -10,8 +10,8 @@ export const  Display = () => {
     return <div className={s.displayContainer}>
         <Routes>
             <Route path={'/users'} element={<Users/>}/>
-            <Route path={'/profile/:userId'} element={<Profile/>}/>
-            <Route path={'login'} element={<Login/>}/>
+            <Route path={'/profile/*'} element={<Profile/>}/>
+            <Route path={'/login'} element={<Login/>}/>
         </Routes>
     </div>
 }

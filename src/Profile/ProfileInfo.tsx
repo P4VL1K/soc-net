@@ -4,6 +4,7 @@ import {AppRootStateType} from "../store/store";
 import {Preloader} from "../common/Preloader/Preloader";
 import userPhoto from './ushastiy-kot.jpg'
 import {ResponseProfileData} from "../store/profile-reducer";
+import {ProfileStatus} from "./ProfileStatus";
 
 
 export const ProfileInfo = () => {
@@ -15,6 +16,7 @@ export const ProfileInfo = () => {
     }
 
     return <div>
+        <ProfileStatus/>
         <div>{profile.fullName ? profile.fullName : 'fullName'}</div>
         <img src={profile.photos.large ? profile.photos.large : userPhoto}/>
     </div>
