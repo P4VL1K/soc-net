@@ -18,6 +18,6 @@ export const ProfileInfo = () => {
     return <div>
         <ProfileStatus/>
         <div>{profile.fullName ? profile.fullName : 'fullName'}</div>
-        <img src={profile.photos.large ? profile.photos.large : userPhoto}/>
+        <img src={profile.photos.large ? profile.photos.large : userPhoto} style={{width: '200px'}}/>
     </div>
 }

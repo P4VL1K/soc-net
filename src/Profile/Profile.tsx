@@ -1,13 +1,11 @@
 import React, {useEffect} from "react";
-import {Navigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {getStatusTC, getUserProfileTC} from "../store/profile-reducer";
-import {AppRootStateType, useAppDispatch} from "../store/store";
+import {useAppDispatch} from "../store/store";
 import {ProfileInfo} from "./ProfileInfo";
-import {useSelector} from "react-redux";
+import {MyPosts} from "./MyPosts";
 
 export const Profile = () => {
-
-    const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
 
     const dispatch = useAppDispatch()
 
@@ -22,11 +20,8 @@ export const Profile = () => {
         dispatch(getStatusTC(userId))
     },[])
 
-    if (!isAuth) {
-        return <Navigate to={'/login'}/>
-    }
-
     return <div>
         <ProfileInfo/>
+        <MyPosts/>
     </div>
 }

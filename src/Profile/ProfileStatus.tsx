@@ -9,8 +9,6 @@ export const ProfileStatus = () => {
 
     const status = useSelector<AppRootStateType, string>(st => st.profile.status)
 
-    console.log(status)
-
     const [title, setTitle] = useState(status)
     const [editMode, setEditMode] = useState(false)
 

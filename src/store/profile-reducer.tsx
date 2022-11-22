@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {v1} from "uuid";
 
 type SetUserProfileActionType = {
     type: 'SET-USER-PROFILE'
@@ -11,11 +12,22 @@ type SetStatusActionType = {
     status: string
 }
 
-export type ProfileActionsType = SetUserProfileActionType | SetStatusActionType
+type SetNewPostActionType = {
+    type: 'SET-POST'
+    postMessage: string
+}
+
+export type ProfileActionsType = SetUserProfileActionType | SetStatusActionType | SetNewPostActionType
+
+export type PostType = {
+    id: string
+    message: string
+}
 
 type InitStateType = {
     profile: null | ResponseProfileData
     status: string
+    posts: Array<PostType>
 }
 
 export type ResponseProfileData = {
@@ -30,7 +42,8 @@ export type ResponseProfileData = {
 
 const initState: InitStateType = {
     profile: null,
-    status: 'my status'
+    status: 'my status',
+    posts: [{id: v1(), message: 'Hello!'}]
 }
 
 const profileReducer = (state = initState, action: ProfileActionsType) => {
@@ -39,6 +52,8 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
             return {...state, profile: action.profile}
         case 'SET-STATUS':
             return {...state, status: action.status}
+        case 'SET-POST':
+            return {...state, posts: [{id: v1(), message: action.postMessage}, ...state.posts]}
         default:
             return state
     }
@@ -49,6 +64,7 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
 
 export const setUserProfile = (profile: null): SetUserProfileActionType => ({type: 'SET-USER-PROFILE', profile})
 export const setStatus = (status: string): SetStatusActionType => ({type: 'SET-STATUS', status})
+export const setNewPost = (postMessage: string): SetNewPostActionType => ({type: 'SET-POST', postMessage})
 
 
 //================================= THUNK ==========================================

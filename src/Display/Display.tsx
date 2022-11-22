@@ -4,6 +4,7 @@ import {Route, Routes} from "react-router-dom";
 import {Users} from "../Users/Users";
 import {Profile} from "../Profile/Profile";
 import {Login} from "../Login/Login";
+import {Dialogs} from "../Dialogs/Dialogs";
 
 export const  Display = () => {
 
@@ -12,6 +13,7 @@ export const  Display = () => {
             <Route path={'/users'} element={<Users/>}/>
             <Route path={'/profile/*'} element={<Profile/>}/>
             <Route path={'/login'} element={<Login/>}/>
+            <Route path={'/dialogs'} element={<Dialogs/>}/>
         </Routes>
     </div>
 }

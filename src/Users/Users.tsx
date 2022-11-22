@@ -9,8 +9,6 @@ import avatar from './post_5c8e624c5ee30.jpg'
 
 export const Users = () => {
 
-    const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
-
     const totalUsersCount = useSelector<AppRootStateType, number>(st => st.users.totalUsersCount)
     const pageSize = useSelector<AppRootStateType, number>(st => st.users.pageSize)
     const currentPage = useSelector<AppRootStateType, number>(st => st.users.currentPage)
@@ -32,10 +30,6 @@ export const Users = () => {
 
     const onClickHandler = (pageNumber: number) => {
         dispatch(getUsersTC(pageNumber, pageSize))
-    }
-
-    if (!isAuth) {
-        return <Navigate to={'/login'}/>
     }
 
     return <div className={s.usersContainer}>

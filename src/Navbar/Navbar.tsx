@@ -7,5 +7,6 @@ export const Navbar = () => {
     return <div className={s.navbarContainer}>
         <NavLink to={'/profile'}>Profile</NavLink>
         <NavLink to={'/users'}>Users</NavLink>
+        <NavLink to={'/dialogs'}>Dialogs</NavLink>
     </div>
 }
