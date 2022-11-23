@@ -16,10 +16,9 @@ type FormikErrorsType = {
 export const Login = () => {
 
     const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
+    const error = useSelector<AppRootStateType, string | null>(st => st.auth.error)
 
     const dispatch = useAppDispatch()
-
-
 
     const formik = useFormik({
         initialValues: {
@@ -88,6 +87,9 @@ export const Login = () => {
                     value={formik.values.rememberMe}
                 />}
             />
+            <div style={{color: 'red'}}>
+                {error && error}
+            </div>
             <Button
                 type={'submit'}
                 variant={'contained'}
