@@ -24,7 +24,7 @@ export type PostType = {
     message: string
 }
 
-type InitStateType = {
+export type InitStateType = {
     profile: null | ResponseProfileData
     status: string
     posts: Array<PostType>

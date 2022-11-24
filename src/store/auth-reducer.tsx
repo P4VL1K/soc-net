@@ -16,7 +16,7 @@ export type SetServerErrorActionType = {
     error: string
 }
 
-type InitStateType = {
+export type InitStateType = {
     userId: null | number
     email: null | string
     login: null | string
