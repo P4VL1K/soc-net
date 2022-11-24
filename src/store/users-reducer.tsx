@@ -1,6 +1,5 @@
 import {usersAPI} from "../api/api";
-import {Dispatch} from "redux";
-import {AppRootStateType, AppThunk} from "./store";
+import {AppThunk} from "./store";
 
 export type UsersActionsType = SetUsersActionType | ToggleIsFetchingActionType | setCurrentPageActionType | setTotalUsersCountActionType | followSuccessActionType | unfollowSuccessActionType | toggleFollowingProgressActionType
 
@@ -25,6 +24,7 @@ type InitialStateType = {
     totalUsersCount: number
     isFetching: boolean
     followingInProgress: number[]
+    portionSize: number
 }
 
 type SetUsersActionType = {
@@ -69,7 +69,8 @@ let initialState: InitialStateType = {
     currentPage: 1,
     totalUsersCount: 12,
     isFetching: false,
-    followingInProgress: []
+    followingInProgress: [],
+    portionSize: 10
 }
 
 export const usersReducer = (state = initialState, action: UsersActionsType): InitialStateType => {
