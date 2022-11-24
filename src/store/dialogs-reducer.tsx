@@ -29,4 +29,10 @@ export const dialogsReducer = (state = initialState, action: DialogsActionsType)
     }
 }
 
+
+//================================= ACTIONS ==========================================
+
 export const SetMessageAC = (message: string): SetMessageAC => ({type: 'SET-MESSAGE', message})
+
+
+//================================= THUNK ==========================================

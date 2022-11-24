@@ -25,7 +25,13 @@ export const appReducer = (state: StateType = initialState, action: AppActionsTy
     }
 }
 
+
+//================================= ACTIONS ==========================================
+
 export const initializedSuccess = (): initializedSuccessActionType => ({type: 'INITIALIZED_SUCCESS'})
+
+
+//================================= THUNK ==========================================
 
 export const initializeApp = (): AppThunk => (dispatch) => {
     dispatch(getAuthUserData())
