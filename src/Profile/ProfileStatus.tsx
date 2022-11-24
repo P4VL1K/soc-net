@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
 import {updateStatusTC} from "../store/profile-reducer";
 
-export const ProfileStatus = () => {
+export const ProfileStatus = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
@@ -37,4 +37,4 @@ export const ProfileStatus = () => {
             </div>
         }
     </>
-}
+})

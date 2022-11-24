@@ -7,7 +7,7 @@ import {ResponseProfileData} from "../store/profile-reducer";
 import {ProfileStatus} from "./ProfileStatus";
 
 
-export const ProfileInfo = () => {
+export const ProfileInfo = React.memo(() => {
 
     const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile.profile)
 
@@ -20,4 +20,4 @@ export const ProfileInfo = () => {
         <div>{profile.fullName ? profile.fullName : 'fullName'}</div>
         <img src={profile.photos.large ? profile.photos.large : userPhoto} style={{width: '200px'}}/>
     </div>
-}
+})

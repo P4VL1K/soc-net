@@ -6,7 +6,7 @@ import {MessageType} from "../store/dialogs-reducer";
 
 
 
-export const Dialogs = () => {
+export const Dialogs = React.memo(() => {
 
     const messages = useSelector<AppRootStateType, Array<MessageType>>(st => st.dialogs.messages)
 
@@ -14,4 +14,4 @@ export const Dialogs = () => {
         {messages.map(m => <div key={m.id}>{m.message}</div>)}
         <AddMessageForm/>
     </div>
-}
+})

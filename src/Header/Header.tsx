@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {logout} from "../store/auth-reducer";
 
 
-export const Header = () => {
+export const Header = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
@@ -26,4 +26,4 @@ export const Header = () => {
                 <NavLink to={'/login'}>Login</NavLink>
         }
     </div>
-}
+})

@@ -6,7 +6,7 @@ import {Profile} from "../Profile/Profile";
 import {Login} from "../Login/Login";
 import {Dialogs} from "../Dialogs/Dialogs";
 
-export const  Display = () => {
+export const  Display = React.memo(() => {
 
     return <div className={s.displayContainer}>
         <Routes>
@@ -16,4 +16,4 @@ export const  Display = () => {
             <Route path={'/dialogs'} element={<Dialogs/>}/>
         </Routes>
     </div>
-}
+})

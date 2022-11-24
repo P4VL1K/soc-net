@@ -8,7 +8,7 @@ type FormikErrorType = {
     post?: string
 }
 
-export const AddNewPostForm = () => {
+export const AddNewPostForm = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
@@ -52,4 +52,4 @@ export const AddNewPostForm = () => {
             </Button>
         </FormGroup>
     </form>
-}
+})

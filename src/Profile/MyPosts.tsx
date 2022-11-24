@@ -6,7 +6,7 @@ import {PostType} from "../store/profile-reducer";
 
 
 
-export const MyPosts = () => {
+export const MyPosts = React.memo(() => {
 
     const posts = useSelector<AppRootStateType, Array<PostType>>(st => st.profile.posts)
 
@@ -14,4 +14,4 @@ export const MyPosts = () => {
         <AddNewPostForm/>
         {posts.map(p => <div key={p.id}>{p.message}</div>)}
     </div>
-}
+})

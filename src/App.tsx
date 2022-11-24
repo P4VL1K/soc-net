@@ -11,7 +11,7 @@ import {initializeApp} from "./store/app-reducer";
 import {Preloader} from "./common/Preloader/Preloader";
 
 
-function App() {
+const App = React.memo(() => {
 
     const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
     const initialized = useSelector<AppRootStateType, boolean>(st => st.app.initialized)
@@ -39,7 +39,7 @@ function App() {
             </div>
         </div>
     );
-}
+})
 
 export default App;
 

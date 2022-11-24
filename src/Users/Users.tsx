@@ -7,7 +7,7 @@ import {Preloader} from "../common/Preloader/Preloader";
 import {Navigate, NavLink} from "react-router-dom";
 import avatar from './post_5c8e624c5ee30.jpg'
 
-export const Users = () => {
+export const Users = React.memo(() => {
 
     const totalUsersCount = useSelector<AppRootStateType, number>(st => st.users.totalUsersCount)
     const pageSize = useSelector<AppRootStateType, number>(st => st.users.pageSize)
@@ -58,4 +58,4 @@ export const Users = () => {
             </div>
         </div>)}
     </div>
-}
+})

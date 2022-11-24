@@ -5,7 +5,7 @@ import {useAppDispatch} from "../store/store";
 import {ProfileInfo} from "./ProfileInfo";
 import {MyPosts} from "./MyPosts";
 
-export const Profile = () => {
+export const Profile = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
@@ -24,4 +24,4 @@ export const Profile = () => {
         <ProfileInfo/>
         <MyPosts/>
     </div>
-}
+})
