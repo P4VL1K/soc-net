@@ -1,5 +1,6 @@
 import axios from "axios";
 import {UserPropsType} from "../store/users-reducer";
+import {FormDataType} from "../Profile/ProfileDataForm";
 
 
 const instance = axios.create({
@@ -32,6 +33,18 @@ export const profileAPI = {
     },
     updateStatus (status: string) {
         return instance.put('/profile/status', {status})
+    },
+    savePhoto (photoFile: any) {
+        const formData = new FormData()
+        formData.append('image', photoFile)
+        return instance.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+    saveProfile (profile: FormDataType) {
+        return instance.put('profile', profile)
     }
 }
 
@@ -46,9 +59,6 @@ export const authAPI = {
         return instance.delete('/auth/login')
     }
 }
-
-
-
 
 type ResponseType = {
     items: Array<UserPropsType>

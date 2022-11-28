@@ -25,7 +25,7 @@ const App = React.memo(() => {
     if (!initialized) {
         return <Preloader/>
     }
-    console.log(isAuth , ' AUTH')
+
     return (
         <div className={s.mainContainer}>
             <div>

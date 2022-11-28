@@ -6,7 +6,6 @@ import {followTC, getUsersTC, unfollowTC, UserPropsType} from "../store/users-re
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
 import avatar from './post_5c8e624c5ee30.jpg'
-import {buttonBaseClasses} from "@mui/material";
 
 export const Users = React.memo(() => {
 

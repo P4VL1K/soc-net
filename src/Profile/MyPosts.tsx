@@ -8,7 +8,8 @@ import {PostType} from "../store/profile-reducer";
 
 export const MyPosts = React.memo(() => {
 
-    const posts = useSelector<AppRootStateType, Array<PostType>>(st => st.profile.posts)
+    const posts = useSelector<AppRootStateType, Array<PostType>>(st => st.profile['posts'])
+    //const posts = useSelector<AppRootStateType, Array<PostType>>(st => st.profile.posts)
 
     return <div>
         <AddNewPostForm/>

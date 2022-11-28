@@ -3,11 +3,16 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
 import {updateStatusTC} from "../store/profile-reducer";
 
-export const ProfileStatus = React.memo(() => {
+type PropsType = {
+    isOwner: boolean
+}
+
+export const ProfileStatus = React.memo(({isOwner}: PropsType) => {
 
     const dispatch = useAppDispatch()
 
-    const status = useSelector<AppRootStateType, string>(st => st.profile.status)
+    const status = useSelector<AppRootStateType, string>(st => st.profile['status'])
+    //const status = useSelector<AppRootStateType, string>(st => st.profile.status)
 
     const [title, setTitle] = useState(status)
     const [editMode, setEditMode] = useState(false)

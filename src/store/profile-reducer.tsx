@@ -1,6 +1,10 @@
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 import {v1} from "uuid";
+import {AppRootStateType, AppThunk} from "./store";
+import {FormDataType} from "../Profile/ProfileDataForm";
+import App from "../App";
+import {logDOM} from "@testing-library/react";
 
 type SetUserProfileActionType = {
     type: 'SET-USER-PROFILE'
@@ -17,7 +21,16 @@ type SetNewPostActionType = {
     postMessage: string
 }
 
-export type ProfileActionsType = SetUserProfileActionType | SetStatusActionType | SetNewPostActionType
+type SavePhotoActionType = {
+    type: 'SAVE-PHOTO'
+    photos: PhotosType
+}
+
+export type ProfileActionsType =
+    SetUserProfileActionType
+    | SetStatusActionType
+    | SetNewPostActionType
+    | SavePhotoActionType
 
 export type PostType = {
     id: string
@@ -30,14 +43,30 @@ export type InitStateType = {
     posts: Array<PostType>
 }
 
+export type PhotosType = {
+    large: string
+    small: string
+}
+
+export type ContactsType = {
+    facebook: null | string
+    github: null | string
+    instagram: null | string
+    mainLink: null | string
+    twitter: null | string
+    vk: null | string
+    website: null | string
+    youtube: null | string
+}
+
 export type ResponseProfileData = {
     aboutMe: string
     fullName: string
-    photos: {
-        small: string
-        large: string
-    }
+    photos: PhotosType
     userId: string
+    lookingForAJob: boolean
+    contacts: ContactsType
+    lookingForAJobDescription: string
 }
 
 const initState: InitStateType = {
@@ -54,6 +83,8 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
             return {...state, status: action.status}
         case 'SET-POST':
             return {...state, posts: [{id: v1(), message: action.postMessage}, ...state.posts]}
+        case 'SAVE-PHOTO':
+            return {...state, profile: {...state.profile, photos: action.photos}}
         default:
             return state
     }
@@ -65,6 +96,7 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
 export const setUserProfile = (profile: null): SetUserProfileActionType => ({type: 'SET-USER-PROFILE', profile})
 export const setStatus = (status: string): SetStatusActionType => ({type: 'SET-STATUS', status})
 export const setNewPost = (postMessage: string): SetNewPostActionType => ({type: 'SET-POST', postMessage})
+export const savePhotoAC = (photos: PhotosType): SavePhotoActionType => ({type: 'SAVE-PHOTO', photos})
 
 
 //================================= THUNK ==========================================
@@ -91,6 +123,22 @@ export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
                 dispatch(setStatus(status))
             }
         })
+}
+
+export const savePhotoTC = (photo: any): AppThunk => async (dispatch) => {
+    const response = await profileAPI.savePhoto(photo)
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoAC(response.data.data.photos))
+    }
+}
+
+export const saveProfile = (formData: FormDataType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
+    const userId = getState().auth.userId?.toString()
+    const response = await profileAPI.saveProfile(formData)
+    console.log(response)
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfileTC(userId as string))
+    }
 }
 
 export default profileReducer

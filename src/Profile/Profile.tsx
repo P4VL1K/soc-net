@@ -18,7 +18,7 @@ export const Profile = React.memo(() => {
         }
         dispatch(getUserProfileTC(userId))
         dispatch(getStatusTC(userId))
-    },[])
+    },[params])
 
     return <div>
         <ProfileInfo/>
