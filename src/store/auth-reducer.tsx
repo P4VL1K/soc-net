@@ -76,6 +76,8 @@ export const getAuthUserData = (): AppThunk => async (dispatch) => {
         let {id, login, email} = response.data.data
         dispatch(setAuthUserData(id, email, login, true))
         dispatch(initializedSuccess())
+    } else {
+        dispatch(initializedSuccess())
     }
 }
 
