@@ -3,8 +3,7 @@ import {profileAPI} from "../api/api";
 import {v1} from "uuid";
 import {AppRootStateType, AppThunk} from "./store";
 import {FormDataType} from "../Profile/ProfileDataForm";
-import App from "../App";
-import {logDOM} from "@testing-library/react";
+import {handleFormDataServerError} from "../utils/error-utils";
 
 type SetUserProfileActionType = {
     type: 'SET-USER-PROFILE'
@@ -26,11 +25,23 @@ type SavePhotoActionType = {
     photos: PhotosType
 }
 
+type setFormDataServerErrorActionType = {
+    type: 'SET-FORM-DATA-SERVER-ERROR'
+    error: string
+}
+
+type toggleActionType = {
+    type: 'SET-TOGGLE'
+    toggle: boolean
+}
+
 export type ProfileActionsType =
     SetUserProfileActionType
     | SetStatusActionType
     | SetNewPostActionType
     | SavePhotoActionType
+    | setFormDataServerErrorActionType
+    | toggleActionType
 
 export type PostType = {
     id: string
@@ -41,6 +52,8 @@ export type InitStateType = {
     profile: null | ResponseProfileData
     status: string
     posts: Array<PostType>
+    error: string | null
+    toggle: boolean
 }
 
 export type PhotosType = {
@@ -72,7 +85,9 @@ export type ResponseProfileData = {
 const initState: InitStateType = {
     profile: null,
     status: 'my status',
-    posts: [{id: v1(), message: 'Hello!'}]
+    posts: [{id: v1(), message: 'Hello!'}],
+    error: null,
+    toggle: false
 }
 
 const profileReducer = (state = initState, action: ProfileActionsType) => {
@@ -85,6 +100,10 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
             return {...state, posts: [{id: v1(), message: action.postMessage}, ...state.posts]}
         case 'SAVE-PHOTO':
             return {...state, profile: {...state.profile, photos: action.photos}}
+        case 'SET-FORM-DATA-SERVER-ERROR':
+            return {...state, error: action.error}
+        case 'SET-TOGGLE':
+            return {...state, toggle: action.toggle}
         default:
             return state
     }
@@ -97,6 +116,8 @@ export const setUserProfile = (profile: null): SetUserProfileActionType => ({typ
 export const setStatus = (status: string): SetStatusActionType => ({type: 'SET-STATUS', status})
 export const setNewPost = (postMessage: string): SetNewPostActionType => ({type: 'SET-POST', postMessage})
 export const savePhotoAC = (photos: PhotosType): SavePhotoActionType => ({type: 'SAVE-PHOTO', photos})
+export const setFormDataServerErrorAC = (error: string): setFormDataServerErrorActionType => ({type: 'SET-FORM-DATA-SERVER-ERROR', error})
+export const toggleAC = (toggle: boolean): toggleActionType => ({type: 'SET-TOGGLE', toggle})
 
 
 //================================= THUNK ==========================================
@@ -104,7 +125,6 @@ export const savePhotoAC = (photos: PhotosType): SavePhotoActionType => ({type: 
 export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
     profileAPI.getProfile(userId)
         .then(res => {
-            console.log(res.data)
             dispatch(setUserProfile(res.data))
         })
 }
@@ -135,9 +155,12 @@ export const savePhotoTC = (photo: any): AppThunk => async (dispatch) => {
 export const saveProfile = (formData: FormDataType): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
     const userId = getState().auth.userId?.toString()
     const response = await profileAPI.saveProfile(formData)
-    console.log(response)
     if (response.data.resultCode === 0) {
         dispatch(getUserProfileTC(userId as string))
+        dispatch(toggleAC(true))
+    } else {
+        handleFormDataServerError(response.data, dispatch)
+        dispatch(toggleAC(false))
     }
 }
 

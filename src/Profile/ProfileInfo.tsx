@@ -16,6 +16,7 @@ export const ProfileInfo = React.memo(() => {
 
     const dispatch = useAppDispatch()
 
+    const toggle = useSelector<AppRootStateType, boolean>(st => st.profile['toggle'])
     const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile['profile'])
     //const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile.profile)
 
@@ -35,9 +36,9 @@ export const ProfileInfo = React.memo(() => {
         }
     }
 
-    const onSubmit = (formData: FormDataType) => {
-        dispatch(saveProfile(formData))
-        setEditMode(false)
+    const onSubmit = async (formData: FormDataType) => {
+        await dispatch(saveProfile(formData))
+        setEditMode(toggle)
     }
 
     return <div>

@@ -7,7 +7,8 @@ test('errors should be saved', () => {
         email: null,
         login: null,
         isAuth: false,
-        error: null
+        error: null,
+        captchaURL: ''
     }
     const action = setServerErrorAC('ERROR')
 

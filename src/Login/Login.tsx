@@ -17,6 +17,7 @@ export const Login = React.memo(() => {
 
     const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
     const error = useSelector<AppRootStateType, string | null>(st => st.auth.error)
+    const captchaURL = useSelector<AppRootStateType, string>(st => st.auth.captchaURL)
 
     const dispatch = useAppDispatch()
 
@@ -24,7 +25,8 @@ export const Login = React.memo(() => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
+            captcha: ''
         },
         validate: values => {
             const errors: FormikErrorsType = {}
@@ -48,7 +50,7 @@ export const Login = React.memo(() => {
             return errors
         },
         onSubmit: values => {
-            dispatch(login(values.email, values.password, values.rememberMe))
+            dispatch(login(values.email, values.password, values.rememberMe, values.captcha))
         }
     })
 
@@ -90,6 +92,19 @@ export const Login = React.memo(() => {
             <div style={{color: 'red'}}>
                 {error && error}
             </div>
+            {captchaURL && <div>
+                <div>
+                    <img src={captchaURL} />
+                </div>
+                <div>
+                    <input
+                        type="text"
+                        name="captcha"
+                        onChange={formik.handleChange}
+                        value={formik.values.captcha}
+                    />
+                </div>
+            </div>}
             <Button
                 type={'submit'}
                 variant={'contained'}

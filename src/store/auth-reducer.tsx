@@ -1,9 +1,9 @@
-import {authAPI} from "../api/api";
+import {authAPI, securityAPI} from "../api/api";
 import {AppThunk} from "./store";
 import {handleServerError} from "../utils/error-utils";
 import {initializedSuccess} from "./app-reducer";
 
-export type AuthActionsType = SetAuthUserDataActionType | SetServerErrorActionType
+export type AuthActionsType = SetAuthUserDataActionType | SetServerErrorActionType | setCaptchaURLActionType
 
 export type SetAuthUserDataActionType = {
     type: 'SET-AUTH-USER-DATA'
@@ -16,12 +16,18 @@ export type SetServerErrorActionType = {
     error: string
 }
 
+export type setCaptchaURLActionType = {
+    type: 'SET-CAPTCHA-URL'
+    captchaURL: string
+}
+
 export type InitStateType = {
     userId: null | number
     email: null | string
     login: null | string
     isAuth: boolean
     error: null | string
+    captchaURL: string
 }
 
 const initState: InitStateType = {
@@ -29,7 +35,8 @@ const initState: InitStateType = {
     email: null,
     login: null,
     isAuth: false,
-    error: null
+    error: null,
+    captchaURL: ''
 }
 
 export const authReducer = (state = initState, action: AuthActionsType): InitStateType => {
@@ -45,6 +52,8 @@ export const authReducer = (state = initState, action: AuthActionsType): InitSta
                 ...state,
                 error: action.error
             }
+        case 'SET-CAPTCHA-URL':
+            return {...state, captchaURL: action.captchaURL}
         default:
             return state
     }
@@ -56,6 +65,7 @@ export const authReducer = (state = initState, action: AuthActionsType): InitSta
 
 export const setAuthUserData = (userId: null | number, email: null | string, login: null | string, isAuth: boolean): SetAuthUserDataActionType => ({type: 'SET-AUTH-USER-DATA', data: {userId, email, login}, isAuth})
 export const setServerErrorAC = (error: string): SetServerErrorActionType => ({type: 'SET-SERVER-ERROR', error})
+export const setCaptchaURL = (captchaURL: string): setCaptchaURLActionType => ({type: 'SET-CAPTCHA-URL', captchaURL})
 
 
 //================================= THUNK ==========================================
@@ -69,11 +79,12 @@ export const getAuthUserData = (): AppThunk => async (dispatch) => {
     }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean): AppThunk => async (dispatch) => {
-    const response = await authAPI.login(email, password, rememberMe)
+export const login = (email: string, password: string, rememberMe: boolean, captcha: string): AppThunk => async (dispatch) => {
+    const response = await authAPI.login(email, password, rememberMe, captcha)
     if (response.data.resultCode === 0) {
         dispatch(getAuthUserData())
     } else {
+        dispatch(getCaptchaURL())
         handleServerError(response.data, dispatch)
     }
 }
@@ -83,6 +94,12 @@ export const logout = (): AppThunk => async (dispatch) => {
     if (response.data.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false))
     }
+}
+
+export const getCaptchaURL = (): AppThunk => async (dispatch) => {
+    const response = await securityAPI.getCaptcha()
+    const captchaURL = response.data.url
+    dispatch(setCaptchaURL(captchaURL))
 }
 
 // export const getAuthUserData = (): AppThunk => (dispatch) => {
