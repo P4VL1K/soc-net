@@ -5,7 +5,9 @@ import {AppRootStateType, useAppDispatch} from "../store/store";
 import {followTC, getUsersTC, unfollowTC, UserPropsType} from "../store/users-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import avatar from './post_5c8e624c5ee30.jpg'
+import avatar from './post_5c8e624c5ee30.jpg';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
 
 export const Users = React.memo(() => {
 
@@ -41,7 +43,7 @@ export const Users = React.memo(() => {
     return <div className={s.usersContainer}>
         {isFetching ? <Preloader/> : <div>
             {portionNumber > 1  &&
-                <button onClick={() => setPortionNumber(portionNumber - 1)}>PREV</button>}
+                <FirstPageIcon onClick={() => setPortionNumber(portionNumber - 1)}>PREV</FirstPageIcon>}
             {pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(p => <span
@@ -50,7 +52,7 @@ export const Users = React.memo(() => {
                 onClick={(e) => onClickHandler(p)}
             >{-p}</span>)}
             {portionCount > portionNumber &&
-                <button onClick={() => {setPortionNumber(portionNumber + 1)}}>NEXT</button>
+                <LastPageIcon onClick={() => {setPortionNumber(portionNumber + 1)}}>NEXT</LastPageIcon>
             }
         </div>}
         {users.map(u => <div key={u.id}>

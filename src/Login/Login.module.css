@@ -1,0 +1,28 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    align-items: center;
+}
+
+.loginContainer h1 {
+    font-weight: 900;
+    font-size: 50px;
+    color: rgb(25, 118, 210);
+}
+
+.formGroup {
+    background-color: #f1f1f1;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 4px 4px #d7d3d3;
+    width: 30%;
+}
+
+.formGroup a {
+    margin: auto;
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}

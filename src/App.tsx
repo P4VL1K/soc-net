@@ -8,7 +8,8 @@ import {AppRootStateType, useAppDispatch} from "./store/store";
 import {useSelector} from "react-redux";
 import {Login} from "./Login/Login";
 import {initializeApp} from "./store/app-reducer";
-import {Preloader} from "./common/Preloader/Preloader";
+import {NewBlock} from "./NewBlock/NewBlock";
+import {LinearProgress} from "@mui/material";
 
 
 const App = React.memo(() => {
@@ -23,17 +24,20 @@ const App = React.memo(() => {
     }, [])
 
     if (!initialized) {
-        return <Preloader/>
+        return <div>
+            <LinearProgress/>
+        </div>
     }
 
     return (
-        <div className={s.mainContainer}>
-            <div>
+        <div className={s.mainDisplay}>
+            <div className={s.mainContainer}>
                 <Header/>
-                {!isAuth  ? <Login/> :
+                {!isAuth ? <Login/> :
                     <div className={s.dispNavContainer}>
-                    <Navbar/>
-                    <Display/>
+                        <Navbar/>
+                        <Display/>
+                        <NewBlock/>
                     </div>
                 }
             </div>

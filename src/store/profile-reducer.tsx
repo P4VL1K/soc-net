@@ -35,6 +35,11 @@ type toggleActionType = {
     toggle: boolean
 }
 
+type setFullNameActionType = {
+    type: 'SET-FULL-NAME'
+    fullName: string
+}
+
 export type ProfileActionsType =
     SetUserProfileActionType
     | SetStatusActionType
@@ -42,6 +47,7 @@ export type ProfileActionsType =
     | SavePhotoActionType
     | setFormDataServerErrorActionType
     | toggleActionType
+    | setFullNameActionType
 
 export type PostType = {
     id: string
@@ -54,6 +60,7 @@ export type InitStateType = {
     posts: Array<PostType>
     error: string | null
     toggle: boolean
+    fullName: null | string
 }
 
 export type PhotosType = {
@@ -87,7 +94,8 @@ const initState: InitStateType = {
     status: 'my status',
     posts: [{id: v1(), message: 'Hello!'}],
     error: null,
-    toggle: false
+    toggle: false,
+    fullName: null
 }
 
 const profileReducer = (state = initState, action: ProfileActionsType) => {
@@ -104,6 +112,8 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
             return {...state, error: action.error}
         case 'SET-TOGGLE':
             return {...state, toggle: action.toggle}
+        case 'SET-FULL-NAME':
+            return {...state, fullName: action.fullName}
         default:
             return state
     }
@@ -118,6 +128,7 @@ export const setNewPost = (postMessage: string): SetNewPostActionType => ({type:
 export const savePhotoAC = (photos: PhotosType): SavePhotoActionType => ({type: 'SAVE-PHOTO', photos})
 export const setFormDataServerErrorAC = (error: string): setFormDataServerErrorActionType => ({type: 'SET-FORM-DATA-SERVER-ERROR', error})
 export const toggleAC = (toggle: boolean): toggleActionType => ({type: 'SET-TOGGLE', toggle})
+export const setFullName = (fullName: string): setFullNameActionType => ({type: 'SET-FULL-NAME', fullName})
 
 
 //================================= THUNK ==========================================
@@ -126,6 +137,7 @@ export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
     profileAPI.getProfile(userId)
         .then(res => {
             dispatch(setUserProfile(res.data))
+            dispatch(setFullName(res.data.fullName))
         })
 }
 

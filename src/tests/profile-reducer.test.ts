@@ -8,7 +8,8 @@ test('new post text should be added', () => {
         status: 'my status',
         posts: [{id: v1(), message: 'Hello!'}],
         error: null,
-        toggle: false
+        toggle: false,
+        fullName: null
     }
     const action = setNewPost('new post text')
 

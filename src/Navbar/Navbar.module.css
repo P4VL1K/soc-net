@@ -1,12 +1,19 @@
 .navbarContainer {
-    background-color: #e8e89e;
+    background-color: #f1f1f1;
     display: flex;
     flex-direction: column;
-    padding: 30px;
-    /*height: 250px;*/
-    /*width: 250px;*/
+    align-items: flex-start;
+    min-width: 230px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px #e0dddd;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600
 }
 
 .navbarContainer a {
     text-decoration: none;
+}
+
+.navLink {
+    margin: 8px
 }

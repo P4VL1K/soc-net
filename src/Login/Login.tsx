@@ -58,8 +58,10 @@ export const Login = React.memo(() => {
         return <Navigate to={'/profile'}/>
     }
 
-    return <form onSubmit={formik.handleSubmit}>
-        <FormGroup>
+    return <form onSubmit={formik.handleSubmit} className={s.loginContainer}>
+        <h1>Social network</h1>
+        <FormGroup className={s.formGroup}>
+            <a>Login to Social network</a>
             <TextField
                 error={formik.errors.email ? true : false}
                 type="email"

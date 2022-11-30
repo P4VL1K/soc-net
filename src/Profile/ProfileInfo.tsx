@@ -8,6 +8,9 @@ import {ProfileStatus} from "./ProfileStatus";
 import {useParams} from "react-router-dom";
 import {ProfileData} from "./ProfileData";
 import {FormDataType, ProfileDataForm} from "./ProfileDataForm";
+import s from './ProfileInfo.module.css'
+import {PhotoCamera} from "@mui/icons-material";
+import {IconButton} from "@mui/material";
 
 
 export const ProfileInfo = React.memo(() => {
@@ -43,8 +46,12 @@ export const ProfileInfo = React.memo(() => {
 
     return <div>
         <ProfileStatus isOwner={isOwner}/>
-        <img src={profile.photos.large ? profile.photos.large : userPhoto} style={{width: '200px'}}/>
-        {isOwner && <input type='file' onChange={onMainPhotoSelected}/>}
+        <img src={profile.photos.large ? profile.photos.large : userPhoto} style={{width: '200px'}} className={s.mainPhoto}/>
+        {isOwner &&
+            <IconButton color="primary" aria-label="upload picture" component="label">
+                <input hidden accept="image/*" type="file" onChange={onMainPhotoSelected}/>
+            <PhotoCamera />
+            </IconButton>}
         {editMode ? <ProfileDataForm onSubmit={onSubmit}/> : <ProfileData goToEditMode={() => setEditMode(true)}/>}
     </div>
 })
