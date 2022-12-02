@@ -16,7 +16,11 @@
 }
 
 .fullName {
-    margin-left: 50px;
+    font-weight: 900;
+    font-size: 35px;
+    margin-left: 120px;
+    position: absolute;
+    float: right;
 }
 
 .logoutContainer {
@@ -26,4 +30,8 @@
 .logoutContainer span{
     font-weight: 600;
     font-size: 15px;
+}
+
+.iconHeader {
+    margin-left: 50px;
 }

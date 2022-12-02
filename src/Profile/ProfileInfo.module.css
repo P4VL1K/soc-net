@@ -1,3 +1,33 @@
+.profileContainer {
+
+}
+
 .mainPhoto {
     border-radius: 50%;
+}
+
+.mainProfile {
+    display: flex;
+    align-items: center;
+}
+
+.fullNameProfile {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.status {
+    margin-left: 30px;
+}
+
+.editButtons {
+   display: flex;
+    justify-content: flex-end;
+    margin-right: 30px;
+}
+
+.post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -5,9 +5,12 @@ import {AppRootStateType, useAppDispatch} from "../store/store";
 import {followTC, getUsersTC, unfollowTC, UserPropsType} from "../store/users-reducer";
 import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import avatar from './post_5c8e624c5ee30.jpg';
+import avatar from './../Profile/kotik.jpg';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import {LinearProgress} from "@mui/material";
 
 export const Users = React.memo(() => {
 
@@ -41,36 +44,44 @@ export const Users = React.memo(() => {
     }
 
     return <div className={s.usersContainer}>
-        {isFetching ? <Preloader/> : <div>
-            {portionNumber > 1  &&
-                <FirstPageIcon onClick={() => setPortionNumber(portionNumber - 1)}>PREV</FirstPageIcon>}
+        {isFetching ? <LinearProgress /> : <div className={s.pagination}>
+            {portionNumber > 1 &&
+                <button className={s.page}>
+                <FirstPageIcon onClick={() => setPortionNumber(portionNumber - 1)}
+                               sx={{fontSize: '15px'}}>PREV</FirstPageIcon>
+                     </button>}
             {pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(p => <span
                 key={p}
-                className={currentPage === p ? s.selectedPage : ''}
+                className={currentPage === p ? s.selectedPage : s.stockPage}
                 onClick={(e) => onClickHandler(p)}
-            >{-p}</span>)}
+                >{' '+p+' '}</span>)}
             {portionCount > portionNumber &&
-                <LastPageIcon onClick={() => {setPortionNumber(portionNumber + 1)}}>NEXT</LastPageIcon>
+                <button className={s.page}>
+                    <LastPageIcon onClick={() => {setPortionNumber(portionNumber + 1)}} sx={{fontSize: '15px'}}>NEXT</LastPageIcon>
+                </button>
+
             }
-        </div>}
-        {users.map(u => <div key={u.id}>
-            <NavLink to={`/profile/` + u.id}>
-                <img src={u.photos.small ? u.photos.small : avatar} className={s.avatar}/>
-            </NavLink>
-            <div>
-                {u.followed ?
-                    <button onClick={() => dispatch(unfollowTC(u.id))} disabled={followingInProgress.some(id => id === u.id)}>
-                        Unfollow
-                    </button>
-                    : <button onClick={() => dispatch(followTC(u.id))} disabled={followingInProgress.some(id => id === u.id)}>
-                        Follow
-                    </button>}
-            </div>
-            <div>
-                Name: {u.name}
-            </div>
-        </div>)}
-    </div>
-})
+                </div>}
+            {users.map(u => <div key={u.id}>
+                <NavLink to={`/profile/` + u.id}>
+                    <img src={u.photos.small ? u.photos.small : avatar} className={s.avatar}/>
+                </NavLink>
+                <div>
+                    {u.followed ?
+                        <button onClick={() => dispatch(unfollowTC(u.id))}
+                                disabled={followingInProgress.some(id => id === u.id)}>
+                            Unfollow
+                        </button>
+                        : <button onClick={() => dispatch(followTC(u.id))}
+                                  disabled={followingInProgress.some(id => id === u.id)}>
+                            Follow
+                        </button>}
+                </div>
+                <div>
+                    Name: {u.name}
+                </div>
+            </div>)}
+        </div>
+        })

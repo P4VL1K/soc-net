@@ -3,6 +3,7 @@ import {Button, FormGroup, TextField} from "@mui/material";
 import {useFormik} from "formik";
 import {useAppDispatch} from "../store/store";
 import {setNewPost} from "../store/profile-reducer";
+import s from './../Profile/ProfileInfo.module.css'
 
 type FormikErrorType = {
     post?: string
@@ -32,9 +33,9 @@ export const AddNewPostForm = React.memo(() => {
         }
     })
 
-    return <form onSubmit={formik.handleSubmit}>
-        <FormGroup>
+    return <form onSubmit={formik.handleSubmit} className={s.post}>
             <TextField
+                sx={{width: '300px'}}
                 error={formik.errors.post ? true : false}
                 type="textarea"
                 label="post"
@@ -45,11 +46,11 @@ export const AddNewPostForm = React.memo(() => {
             />
             {formik.errors.post ? <div style={{color: 'red'}}>{formik.errors.post}</div> : null}
             <Button
+                sx={{height: '50px'}}
                 type={'submit'}
                 variant={'contained'}
                 color={'primary'}>
                 post
             </Button>
-        </FormGroup>
     </form>
 })

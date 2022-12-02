@@ -66,7 +66,7 @@ export type InitStateType = {
 export type PhotosType = {
     large: string
     small: string
-}
+} | null
 
 export type ContactsType = {
     facebook: null | string

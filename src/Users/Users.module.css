@@ -6,5 +6,19 @@
 
 .selectedPage {
     font-weight: bold;
-    color: red;
+    font-size: 20px;
+    color: #c57373;
+}
+
+.pagination {
+
+}
+
+.stockPage {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.page {
+    border: 1px #282c34 solid;
 }

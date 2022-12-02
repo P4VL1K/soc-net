@@ -1,16 +1,14 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
 import {Preloader} from "../common/Preloader/Preloader";
-import userPhoto from './ushastiy-kot.jpg'
-import {ResponseProfileData, savePhotoTC, saveProfile} from "../store/profile-reducer";
+import userPhoto from './kotik.jpg'
+import {ResponseProfileData, saveProfile} from "../store/profile-reducer";
 import {ProfileStatus} from "./ProfileStatus";
 import {useParams} from "react-router-dom";
 import {ProfileData} from "./ProfileData";
 import {FormDataType, ProfileDataForm} from "./ProfileDataForm";
 import s from './ProfileInfo.module.css'
-import {PhotoCamera} from "@mui/icons-material";
-import {IconButton} from "@mui/material";
 
 
 export const ProfileInfo = React.memo(() => {
@@ -33,25 +31,19 @@ export const ProfileInfo = React.memo(() => {
 
     let isOwner = userId ? false : true
 
-    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length) {
-            dispatch(savePhotoTC(e.target.files[0]))
-        }
-    }
-
     const onSubmit = async (formData: FormDataType) => {
         await dispatch(saveProfile(formData))
         setEditMode(toggle)
     }
 
-    return <div>
-        <ProfileStatus isOwner={isOwner}/>
-        <img src={profile.photos.large ? profile.photos.large : userPhoto} style={{width: '200px'}} className={s.mainPhoto}/>
-        {isOwner &&
-            <IconButton color="primary" aria-label="upload picture" component="label">
-                <input hidden accept="image/*" type="file" onChange={onMainPhotoSelected}/>
-            <PhotoCamera />
-            </IconButton>}
+    return <div className={s.profileContainer}>
+        <div className={s.mainProfile}>
+            <img src={profile?.photos?.large ? profile.photos.large : userPhoto} style={{width: '200px'}} className={s.mainPhoto}/>
+            <div className={s.status}>
+                <span className={s.fullNameProfile}>{profile?.fullName ? profile.fullName : 'fullName'}</span>
+                <ProfileStatus isOwner={isOwner}/>
+            </div>
+        </div>
         {editMode ? <ProfileDataForm onSubmit={onSubmit}/> : <ProfileData goToEditMode={() => setEditMode(true)}/>}
     </div>
 })
@@ -63,5 +55,5 @@ export type ContactType = {
 }
 
 export const Contact = (props: ContactType) => {
-    return <div><b>{props.contactTitle}: </b>{props.contactValue}</div>
+    return <div style={{marginLeft: '15px'}}><b>{props.contactTitle}: </b>{props.contactValue}</div>
 }
