@@ -1,18 +1,16 @@
 import React, {ChangeEvent} from "react";
 import {useFormik} from "formik";
 import {Button} from "@mui/material";
-import {Contact} from "./ProfileInfo";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../store/store";
 import {ResponseProfileData} from "../store/profile-reducer";
-import {getCaptchaURL} from "../store/auth-reducer";
+import s from './ProfileDataForm.module.css'
 
 export type FormDataType = {
     fullName: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     aboutMe: string
-    // contacts: string
 }
 
 type ProfileDataFormPropsType = {
@@ -75,10 +73,10 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
         }
     })
 
-    return <form onSubmit={formik.handleSubmit}>
+    return <form onSubmit={formik.handleSubmit} style={{marginTop: '10px'}}>
         <div style={{color: 'red'}}>{error}</div>
-        <div><b>About me: </b></div>
         <div>
+            <span><b>About me: </b></span>
             <input
                 type="text"
                 name="aboutMe"
@@ -86,8 +84,8 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
                 value={formik.values.aboutMe}
             />
         </div>
-        <div><b>Full name: </b></div>
         <div>
+            <span><b>Full name: </b></span>
             <input
                 type="text"
                 name="fullName"
@@ -96,34 +94,45 @@ export const ProfileDataForm = (props: ProfileDataFormPropsType) => {
             />
         </div>
         <div>
-            <div><b>Looking for a job description: </b></div>
-            <input
-                type="text"
-                name="lookingForAJobDescription"
-                onChange={formik.handleChange}
-                value={formik.values.lookingForAJobDescription}
-            />
-            <div><b>Looking for a job: </b></div>
-            <input
-                type="checkbox"
-                name="lookingForAJob"
-                onChange={formik.handleChange}
-                checked={formik.values.lookingForAJob}/>
             <div>
-                <b>Contacts: </b>{Object.entries(profile?.contacts ? profile.contacts : 'contacts').map(([key, value]) => {
-                return <div key={key}><b>{key}: </b><Input
-                    name={key}
+                <span><b>Looking for a job description: </b></span>
+                <input
+                    type="text"
+                    name="lookingForAJobDescription"
                     onChange={formik.handleChange}
-                    placeholder={key}
-                    value={formik.values[key as keyof typeof formik.values]}/></div>
-            })}</div>
-            <Button
-                type={'submit'}
-                variant={'contained'}
-                color={'primary'}
-            >
-                submit
-            </Button>
+                    value={formik.values.lookingForAJobDescription}
+                />
+            </div>
+            <div>
+                <span><b>Looking for a job: </b></span>
+                <input
+                    type="checkbox"
+                    name="lookingForAJob"
+                    onChange={formik.handleChange}
+                    checked={formik.values.lookingForAJob}/>
+                <div>
+                </div>
+                <b>Contacts: </b>
+                <div style={{paddingLeft: '20px'}} className={s.contacts}>
+                    {Object.entries(profile?.contacts ? profile.contacts : 'contacts').map(([key, value]) => {
+                        return <span key={key}><b>{key}: </b><Input
+                            name={key}
+                            onChange={formik.handleChange}
+                            placeholder={key}
+                            value={formik.values[key as keyof typeof formik.values]}/></span>
+                    })}
+                </div>
+            </div>
+            <div style={{textAlign: 'center'}}>
+                <Button
+                    sx={{marginTop: '15px'}}
+                    type={'submit'}
+                    variant={'contained'}
+                    color={'primary'}
+                >
+                    submit
+                </Button>
+            </div>
         </div>
     </form>
 }
@@ -143,7 +152,7 @@ const Input = ({name, onChange, value, placeholder}: InputPropsType) => {
         </div>
     }
 
-    return <div>
+    return <span>
         <input
             type="text"
             name={name}
@@ -151,5 +160,5 @@ const Input = ({name, onChange, value, placeholder}: InputPropsType) => {
             value={value}
             placeholder={placeholder}
         />
-    </div>
+    </span>
 }

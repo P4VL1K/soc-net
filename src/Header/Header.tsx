@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import userPhoto from "../Profile/kotik.jpg";
 import {ResponseProfileData} from "../store/profile-reducer";
 import {NavLink} from "react-router-dom";
+import {ButtonToggleType, setButtonToggle} from "../store/app-reducer";
 
 
 export const Header = React.memo(() => {
@@ -15,8 +16,7 @@ export const Header = React.memo(() => {
 
     const login = useSelector<AppRootStateType, null | string>(st => st.auth.login)
     const isAuth = useSelector<AppRootStateType, boolean>(st => st.auth.isAuth)
-    const fullName = useSelector<AppRootStateType, string | null>(st => st.profile['fullName'])
-    const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile['profile'])
+    const myProfile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile['myProfile'])
 
     const onClickHandler = () => {
         dispatch(logout())
@@ -28,13 +28,13 @@ export const Header = React.memo(() => {
             &&
             <div className={s.headerContainer}>
                 <span className={s.leftHeader}>
-                    <NavLink to={'/profile'}>
-                        <img src={profile?.photos?.large ? profile.photos.large : userPhoto}
+                    <NavLink to={'/profile'} onClick={() => dispatch(setButtonToggle('profile'))}>
+                        <img src={myProfile?.photos?.large ? myProfile.photos.large : userPhoto}
                              style={{width: '50px', borderRadius: '50%', marginLeft: '50px'}}/>
                     </NavLink>
                 </span>
                 <span className={s.fullName}>
-                        {fullName ? fullName : 'full name'}
+                        {myProfile?.fullName ? myProfile?.fullName : 'full name'}
                     </span>
                 <span>
                     <span className={s.logoutContainer}>
@@ -46,7 +46,6 @@ export const Header = React.memo(() => {
                                 onClick={onClickHandler}>logout
                             </Button>
                         </span>
-                        {/*<span><button >logout</button></span>*/}
                     </span>
                 </span>
             </div>

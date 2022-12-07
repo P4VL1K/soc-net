@@ -22,20 +22,25 @@ export const AddNewPostForm = React.memo(() => {
 
             if (!values.post) {
                 errors.post = 'required'
-            } else if (values.post.length > 30) {
-                errors.post = 'post length must not exceed 30 symbols'
+            } else if (values.post.length > 300) {
+                errors.post = 'post length must not exceed 300 symbols'
             }
 
             return errors
         },
-        onSubmit: values => {
+        onSubmit: (values, actions) => {
             dispatch(setNewPost(values.post))
+            actions.resetForm({
+                values: {
+                    post: ''
+                }
+            })
         }
     })
 
-    return <form onSubmit={formik.handleSubmit} className={s.post}>
+    return <form onSubmit={formik.handleSubmit}>
+        <FormGroup className={s.post}>
             <TextField
-                sx={{width: '300px'}}
                 error={formik.errors.post ? true : false}
                 type="textarea"
                 label="post"
@@ -46,11 +51,12 @@ export const AddNewPostForm = React.memo(() => {
             />
             {formik.errors.post ? <div style={{color: 'red'}}>{formik.errors.post}</div> : null}
             <Button
-                sx={{height: '50px'}}
+                size="large"
                 type={'submit'}
                 variant={'contained'}
                 color={'primary'}>
                 post
             </Button>
+        </FormGroup>
     </form>
 })

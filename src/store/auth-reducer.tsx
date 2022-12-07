@@ -2,6 +2,7 @@ import {authAPI, securityAPI} from "../api/api";
 import {AppThunk} from "./store";
 import {handleServerError} from "../utils/error-utils";
 import {initializedSuccess} from "./app-reducer";
+import {setMyUserId} from "./profile-reducer";
 
 export type AuthActionsType = SetAuthUserDataActionType | SetServerErrorActionType | setCaptchaURLActionType
 
@@ -75,6 +76,7 @@ export const getAuthUserData = (): AppThunk => async (dispatch) => {
     if (response.data.resultCode === 0) {
         let {id, login, email} = response.data.data
         dispatch(setAuthUserData(id, email, login, true))
+        dispatch(setMyUserId(id))
         dispatch(initializedSuccess())
     } else {
         dispatch(initializedSuccess())

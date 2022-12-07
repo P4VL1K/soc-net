@@ -1,9 +1,10 @@
-import {appReducer, initializedSuccess} from "../store/app-reducer";
+import {appReducer, ButtonToggleType, initializedSuccess} from "../store/app-reducer";
 
 
 test('initialization should succeed', () => {
     const startState = {
-        initialized: false
+        initialized: false,
+        buttonToggle: '' as ButtonToggleType
     }
     const action = initializedSuccess()
 

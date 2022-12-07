@@ -3,14 +3,12 @@ import s from './Users.module.css'
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
 import {followTC, getUsersTC, unfollowTC, UserPropsType} from "../store/users-reducer";
-import {Preloader} from "../common/Preloader/Preloader";
 import {NavLink} from "react-router-dom";
 import avatar from './../Profile/kotik.jpg';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import {LinearProgress} from "@mui/material";
+import Button from "@mui/material/Button";
 
 export const Users = React.memo(() => {
 
@@ -43,6 +41,8 @@ export const Users = React.memo(() => {
         dispatch(getUsersTC(pageNumber, pageSize))
     }
 
+    console.log(users)
+
     return <div className={s.usersContainer}>
         {isFetching ? <LinearProgress /> : <div className={s.pagination}>
             {portionNumber > 1 &&
@@ -65,22 +65,28 @@ export const Users = React.memo(() => {
             }
                 </div>}
             {users.map(u => <div key={u.id}>
-                <NavLink to={`/profile/` + u.id}>
-                    <img src={u.photos.small ? u.photos.small : avatar} className={s.avatar}/>
-                </NavLink>
-                <div>
-                    {u.followed ?
-                        <button onClick={() => dispatch(unfollowTC(u.id))}
-                                disabled={followingInProgress.some(id => id === u.id)}>
-                            Unfollow
-                        </button>
-                        : <button onClick={() => dispatch(followTC(u.id))}
-                                  disabled={followingInProgress.some(id => id === u.id)}>
-                            Follow
-                        </button>}
-                </div>
-                <div>
-                    Name: {u.name}
+                <div className={s.userBlock}>
+                    <NavLink to={`/profile/` + u.id}>
+                        <img src={u.photos.small ? u.photos.small : avatar} className={s.avatar}/>
+                    </NavLink>
+                    <div style={{fontSize: '25px', fontWeight: "bold"}}>
+                        {u.name}
+                    </div>
+                    <div>
+                        {u.followed ?
+                            <Button onClick={() => dispatch(unfollowTC(u.id))}
+                                    disabled={followingInProgress.some(id => id === u.id)}
+                                    sx={{fontSize: '15px'}}
+                            >
+                                Unfollow
+                            </Button>
+                            : <Button onClick={() => dispatch(followTC(u.id))}
+                                      disabled={followingInProgress.some(id => id === u.id)}
+                                      sx={{fontSize: '15px'}}
+                            >
+                                Follow
+                            </Button>}
+                    </div>
                 </div>
             </div>)}
         </div>

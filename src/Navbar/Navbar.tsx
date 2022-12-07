@@ -6,10 +6,17 @@ import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
 import EmailIcon from '@mui/icons-material/Email';
 import {ButtonGroup} from "@mui/material";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "../store/store";
+import {ButtonToggleType, setButtonToggle} from "../store/app-reducer";
 
 export const Navbar = () => {
 
-    const [active, setActive] = useState('')
+    const dispatch = useAppDispatch()
+
+    const buttonToggle = useSelector<AppRootStateType, ButtonToggleType>(st => st.app.buttonToggle)
+
+    const [active, setActive] = useState(buttonToggle)
 
     return <div className={s.navbarContainer}>
         <ButtonGroup
@@ -21,8 +28,8 @@ export const Navbar = () => {
                     <Button
                         sx={{ width: 200, padding: 1}}
                         size="large"
-                        onClick={() => setActive('profile')}
-                        variant={active === 'profile' ? 'contained' : 'text'}
+                        onClick={() => dispatch(setButtonToggle('profile'))}
+                        variant={buttonToggle === 'profile' ? 'contained' : 'text'}
                         startIcon={<PersonIcon/>}>
                         Profile
                     </Button>
@@ -33,8 +40,8 @@ export const Navbar = () => {
                     <Button
                         sx={{ width: 200, padding: 1}}
                         size="large"
-                        onClick={() => setActive('users')}
-                        variant={active === 'users' ? 'contained' : 'text'}
+                        onClick={() => dispatch(setButtonToggle('users'))}
+                        variant={buttonToggle === 'users' ? 'contained' : 'text'}
                         startIcon={<GroupIcon/>}>
                         Users
                     </Button>
@@ -45,8 +52,8 @@ export const Navbar = () => {
                     <Button
                         sx={{ width: 200, padding: 1}}
                         size="large"
-                        onClick={() => setActive('dialogs')}
-                        variant={active === 'dialogs' ? 'contained' : 'text'}
+                        onClick={() => dispatch(setButtonToggle('dialogs'))}
+                        variant={buttonToggle === 'dialogs' ? 'contained' : 'text'}
                         startIcon={<EmailIcon/>}>
                         Dialogs
                     </Button>

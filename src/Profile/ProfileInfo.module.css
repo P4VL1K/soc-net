@@ -9,6 +9,7 @@
 .mainProfile {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .fullNameProfile {
@@ -24,10 +25,4 @@
    display: flex;
     justify-content: flex-end;
     margin-right: 30px;
-}
-
-.post {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

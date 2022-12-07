@@ -10,6 +10,7 @@ import s from './../Profile/ProfileInfo.module.css'
 
 type ProfileDataPropsType = {
     goToEditMode: () => void
+    isOwner: boolean
 }
 
 export const ProfileData = (props: ProfileDataPropsType) => {
@@ -25,15 +26,19 @@ export const ProfileData = (props: ProfileDataPropsType) => {
     }
 
     return <div>
-            <hr/>
-            <div className={s.editButtons}>
-                <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative', right: '0px'}}>
-                    <input hidden accept="image/*" type="file" onChange={onMainPhotoSelected}/>
-                    <PhotoCamera />
-                </IconButton>
-                <Button onClick={props.goToEditMode} variant="contained" size="small">edit profile</Button>
+        {props.isOwner ?
+            <div>
+                <hr/>
+                <div className={s.editButtons}>
+                    <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative', right: '0px'}}>
+                        <input hidden accept="image/*" type="file" onChange={onMainPhotoSelected}/>
+                        <PhotoCamera />
+                    </IconButton>
+                    <Button onClick={props.goToEditMode} variant="contained" size="small">edit profile</Button>
+                </div>
+                <hr/>
             </div>
-            <hr/>
+            : null}
         <div><b>About me: </b>{profile?.aboutMe ? profile.aboutMe : 'about me'}</div>
         <div><b>Full name: </b>{profile?.fullName ? profile.fullName : 'fullName'}</div>
         <div><b>Looking for a job description: </b>{profile?.lookingForAJobDescription ? profile.lookingForAJobDescription : 'fullName'}</div>

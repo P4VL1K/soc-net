@@ -9,6 +9,7 @@ import {useParams} from "react-router-dom";
 import {ProfileData} from "./ProfileData";
 import {FormDataType, ProfileDataForm} from "./ProfileDataForm";
 import s from './ProfileInfo.module.css'
+import {MyPosts} from "./MyPosts";
 
 
 export const ProfileInfo = React.memo(() => {
@@ -19,17 +20,21 @@ export const ProfileInfo = React.memo(() => {
 
     const toggle = useSelector<AppRootStateType, boolean>(st => st.profile['toggle'])
     const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile['profile'])
+    const myUserId = useSelector<AppRootStateType, null | number>(st => st.auth.userId)
     //const profile = useSelector<AppRootStateType, null | ResponseProfileData>(st => st.profile.profile)
 
     let params = useParams()
 
-    let userId = params['*']
+    let userId = params['*'] ? params['*'] : myUserId?.toString()
 
     if (!profile) {
         return <Preloader/>
     }
 
-    let isOwner = userId ? false : true
+    console.log(userId)
+    console.log(myUserId)
+
+    let isOwner = (userId === myUserId?.toString() ? true : false)
 
     const onSubmit = async (formData: FormDataType) => {
         await dispatch(saveProfile(formData))
@@ -40,11 +45,17 @@ export const ProfileInfo = React.memo(() => {
         <div className={s.mainProfile}>
             <img src={profile?.photos?.large ? profile.photos.large : userPhoto} style={{width: '200px'}} className={s.mainPhoto}/>
             <div className={s.status}>
-                <span className={s.fullNameProfile}>{profile?.fullName ? profile.fullName : 'fullName'}</span>
+                <span className={s.fullNameProfile}>{profile.fullName ? profile.fullName : 'fullName'}</span>
                 <ProfileStatus isOwner={isOwner}/>
             </div>
         </div>
-        {editMode ? <ProfileDataForm onSubmit={onSubmit}/> : <ProfileData goToEditMode={() => setEditMode(true)}/>}
+        {editMode ? <ProfileDataForm onSubmit={onSubmit}/> : <div>
+            <ProfileData
+                goToEditMode={() => setEditMode(true)}
+                isOwner={isOwner}
+            />
+            <MyPosts isOwner={isOwner}/>
+        </div>}
     </div>
 })
 

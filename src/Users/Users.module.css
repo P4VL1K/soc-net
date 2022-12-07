@@ -11,7 +11,8 @@
 }
 
 .pagination {
-
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .stockPage {
@@ -21,4 +22,12 @@
 
 .page {
     border: 1px #282c34 solid;
+}
+
+.userBlock {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 50px;
 }

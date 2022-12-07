@@ -4,6 +4,8 @@ import profileReducer, {InitStateType, setNewPost} from "../store/profile-reduce
 
 test('new post text should be added', () => {
     const startState: InitStateType = {
+        myUserId: null,
+        myProfile: null,
         profile: null,
         status: 'my status',
         posts: [{id: v1(), message: 'Hello!'}],

@@ -40,6 +40,21 @@ type setFullNameActionType = {
     fullName: string
 }
 
+type deletePostActionType = {
+    type: 'DELETE-POST'
+    postId: string
+}
+
+type setMyUserIdActionType = {
+    type: 'SET-MY-USER-ID'
+    myUserId: string
+}
+
+type setMyProfileActionType = {
+    type: 'SET-MY-PROFILE'
+    myProfile: null
+}
+
 export type ProfileActionsType =
     SetUserProfileActionType
     | SetStatusActionType
@@ -48,6 +63,9 @@ export type ProfileActionsType =
     | setFormDataServerErrorActionType
     | toggleActionType
     | setFullNameActionType
+    | deletePostActionType
+    | setMyUserIdActionType
+    | setMyProfileActionType
 
 export type PostType = {
     id: string
@@ -55,6 +73,8 @@ export type PostType = {
 }
 
 export type InitStateType = {
+    myUserId: null | string
+    myProfile: null | ResponseProfileData
     profile: null | ResponseProfileData
     status: string
     posts: Array<PostType>
@@ -90,6 +110,8 @@ export type ResponseProfileData = {
 }
 
 const initState: InitStateType = {
+    myUserId: null,
+    myProfile: null,
     profile: null,
     status: 'my status',
     posts: [{id: v1(), message: 'Hello!'}],
@@ -114,6 +136,12 @@ const profileReducer = (state = initState, action: ProfileActionsType) => {
             return {...state, toggle: action.toggle}
         case 'SET-FULL-NAME':
             return {...state, fullName: action.fullName}
+        case 'DELETE-POST':
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
+        case 'SET-MY-USER-ID':
+            return {...state, myUserId: action.myUserId}
+        case "SET-MY-PROFILE":
+            return {...state, myProfile: action.myProfile}
         default:
             return state
     }
@@ -129,13 +157,21 @@ export const savePhotoAC = (photos: PhotosType): SavePhotoActionType => ({type: 
 export const setFormDataServerErrorAC = (error: string): setFormDataServerErrorActionType => ({type: 'SET-FORM-DATA-SERVER-ERROR', error})
 export const toggleAC = (toggle: boolean): toggleActionType => ({type: 'SET-TOGGLE', toggle})
 export const setFullName = (fullName: string): setFullNameActionType => ({type: 'SET-FULL-NAME', fullName})
+export const deletePost = (postId: string): deletePostActionType => ({type: 'DELETE-POST', postId})
+export const setMyUserId = (myUserId: string): setMyUserIdActionType => ({type: 'SET-MY-USER-ID', myUserId})
+export const setMyProfile = (myProfile: null): setMyProfileActionType => ({type: 'SET-MY-PROFILE', myProfile})
 
 
 //================================= THUNK ==========================================
 
-export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
+export const getUserProfileTC = (userId: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
     profileAPI.getProfile(userId)
         .then(res => {
+            if (getState().profile['myUserId'] === res.data.userId) {
+                dispatch(setUserProfile(res.data))
+                dispatch(setFullName(res.data.fullName))
+                dispatch(setMyProfile(res.data))
+            }
             dispatch(setUserProfile(res.data))
             dispatch(setFullName(res.data.fullName))
         })
@@ -157,10 +193,12 @@ export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const savePhotoTC = (photo: any): AppThunk => async (dispatch) => {
+export const savePhotoTC = (photo: any): AppThunk => async (dispatch, getState: () => AppRootStateType) => {
     const response = await profileAPI.savePhoto(photo)
     if (response.data.resultCode === 0) {
         dispatch(savePhotoAC(response.data.data.photos))
+        console.log(response.data)
+        dispatch(getUserProfileTC(getState().profile['myUserId']))
     }
 }
 

@@ -18,7 +18,9 @@ export const ProfileStatus = React.memo(({isOwner}: PropsType) => {
     const [editMode, setEditMode] = useState(false)
 
     const activateEditMode = () => {
-        setEditMode(true)
+        if (isOwner) {
+            setEditMode(true)
+        }
     }
 
     const deactivateEditMode = () => {
