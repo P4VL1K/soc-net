@@ -16,8 +16,6 @@ export const Navbar = () => {
 
     const buttonToggle = useSelector<AppRootStateType, ButtonToggleType>(st => st.app.buttonToggle)
 
-    const [active, setActive] = useState(buttonToggle)
-
     return <div className={s.navbarContainer}>
         <ButtonGroup
             orientation="vertical"

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../store/store";
-import {Preloader} from "../common/Preloader/Preloader";
+import CircularProgress from '@mui/material/CircularProgress';
 import userPhoto from './kotik.jpg'
 import {ResponseProfileData, saveProfile} from "../store/profile-reducer";
 import {ProfileStatus} from "./ProfileStatus";
@@ -28,7 +28,10 @@ export const ProfileInfo = React.memo(() => {
     let userId = params['*'] ? params['*'] : myUserId?.toString()
 
     if (!profile) {
-        return <Preloader/>
+        return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <CircularProgress />
+        </div>
+
     }
 
     console.log(userId)
