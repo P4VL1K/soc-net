@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/soc-net/static/css/main.c9261b38.css",
+    "main.js": "/soc-net/static/js/main.9ef95a0a.js",
+    "static/js/651.b14090b4.chunk.js": "/soc-net/static/js/651.b14090b4.chunk.js",
+    "static/media/kotik.jpg": "/soc-net/static/media/kotik.7a1c5aa8c9af2e4b900f.jpg",
+    "index.html": "/soc-net/index.html",
+    "main.c9261b38.css.map": "/soc-net/static/css/main.c9261b38.css.map",
+    "main.9ef95a0a.js.map": "/soc-net/static/js/main.9ef95a0a.js.map",
+    "651.b14090b4.chunk.js.map": "/soc-net/static/js/651.b14090b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c9261b38.css",
+    "static/js/main.9ef95a0a.js"
+  ]
+}
